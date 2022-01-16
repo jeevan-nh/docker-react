@@ -5,13 +5,13 @@ jobs:
     docker:
       - image: buildpack-deps:trusty
     steps:
-      - build-image
+      - checkout
       - run: "docker build -f Dockerfile.dev . -t jeevan-nh/docker-react"
   test:
     docker:
       - image: jeevan-nh/docker-react
     steps:
-      - test-image
+      - checkout
       - run: "docker run -e CI=true jeevan-nh/docker-react npm run test -- --coverage"
 
 workflows:
