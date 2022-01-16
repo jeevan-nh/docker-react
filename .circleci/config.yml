@@ -5,12 +5,16 @@ jobs:
     docker:
       - image: buildpack-deps:trusty
     steps:
+      - setup_remote_docker:
+          version: 19.03.13
       - checkout
       - run: "docker build -f Dockerfile.dev . -t jeevan-nh/docker-react"
   test:
     docker:
       - image: jeevan-nh/docker-react
     steps:
+      - setup_remote_docker:
+          version: 19.03.13
       - checkout
       - run: "docker run -e CI=true jeevan-nh/docker-react npm run test -- --coverage"
 
