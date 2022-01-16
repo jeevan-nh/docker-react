@@ -1,19 +1,22 @@
 version: 2.1
 
 jobs:
-  build-test:
+  build:
     docker:
       - image: buildpack-deps:trusty
     steps:
-      - build-test-image
-      - run:
-          name: "build image"
-          command: "docker build -f Dockerfile.dev . -t jeevan-nh/docker-react"
-      - run:
-          name: "run tests"
-          command: "docker run -e CI=true jeevan-nh/docker-react npm run test -- --coverage"
+      - build-image
+      - run: "docker build -f Dockerfile.dev . -t jeevan-nh/docker-react"
+  test:
+    docker:
+      - image: jeevan-nh/docker-react
+    steps:
+      - test-image
+      - run: "docker run -e CI=true jeevan-nh/docker-react npm run test -- --coverage"
 
 workflows:
-  build-test:
+  version: 2
+  build_and_test:
     jobs:
-      - build-test
+      - build
+      - test
