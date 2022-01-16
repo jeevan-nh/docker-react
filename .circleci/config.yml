@@ -2,20 +2,12 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: buildpack-deps:trusty
+    machine: true
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
+      # - setup_remote_docker:
+      #     version: 19.03.13
       - checkout
       - run: "docker build -f Dockerfile.dev . -t jeevan-nh/docker-react"
-  test:
-    docker:
-      - image: jeevan-nh/docker-react
-    steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - checkout
       - run: "docker run -e CI=true jeevan-nh/docker-react npm run test -- --coverage"
 
 workflows:
@@ -23,4 +15,3 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - test
