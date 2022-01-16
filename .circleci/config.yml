@@ -3,6 +3,7 @@ version: 2.1
 jobs:
   build:
     machine: true
+    resource_class: medium
     steps:
       # - setup_remote_docker:
       #     version: 19.03.13
